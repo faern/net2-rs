@@ -43,3 +43,31 @@ fn smoke_build_listener_v6() {
     let addr = t!(b.local_addr());
     assert_eq!(addr.ip(), IpAddr::V6(Ipv6Addr::new(0, 0, 0, 0, 0, 0, 0, 1)));
 }
+
+#[test]
+fn print_sockaddr() {
+    env_logger::init();
+    use net2::addr2raw;
+    use std::net::SocketAddr;
+
+    let addr = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(6, 7, 8, 9)), 0x0304);
+
+    let (raw_addr, len) = addr2raw(&addr);
+    let slice = unsafe { std::slice::from_raw_parts(raw_addr as *const u8, len as usize) };
+    eprintln!("HALLÅ {}, {:?}", len, slice);
+
+    let addr = SocketAddr::new(IpAddr::V6(Ipv6Addr::new(
+        0x0304,
+        0x0506,
+        0x0708,
+        0x090a,
+        0x0b0c,
+        0x0d0e,
+        0x0f10,
+        0x1112)),
+    0xffa0);
+
+    let (raw_addr, len) = addr2raw(&addr);
+    let slice = unsafe { std::slice::from_raw_parts(raw_addr as *const u8, len as usize) };
+    eprintln!("HALLÅ {} {:?}", len, slice);
+}

@@ -84,7 +84,8 @@ impl ::IntoInner for Socket {
     fn into_inner(self) -> sys::Socket { self.inner }
 }
 
-fn addr2raw(addr: &SocketAddr) -> (*const c::sockaddr, c::socklen_t) {
+/// LOL
+pub fn addr2raw(addr: &SocketAddr) -> (*const c::sockaddr, c::socklen_t) {
     match *addr {
         SocketAddr::V4(ref a) => {
             (a as *const _ as *const _, mem::size_of_val(a) as c::socklen_t)

@@ -64,6 +64,8 @@ mod socket;
 mod ext;
 mod utils;
 
+pub use socket::addr2raw;
+
 #[cfg(target_os="redox")] #[path = "sys/redox/mod.rs"] mod sys;
 #[cfg(unix)] #[path = "sys/unix/mod.rs"] mod sys;
 #[cfg(windows)] #[path = "sys/windows/mod.rs"] mod sys;
